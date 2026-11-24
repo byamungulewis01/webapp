@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="card">
+    <h1>Create Account</h1>
+    <input id="u" placeholder="Username">
+    <input id="p" type="password" placeholder="Password">
+    <button onclick="go()">Register</button>
+    <p id="msg" class="msg"></p>
+    <a class="link" href="index.html">Back to Home</a>
+  </div>
+  <script>
+    async function go() {
+      const msg = document.getElementById('msg');
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('u').value,
+          password: document.getElementById('p').value
+        })
+      });
+      const data = await res.json();
+      msg.textContent = data.message;
+      msg.className = 'msg ' + (res.ok ? 'ok' : 'error');
+    }
+  </script>
+</body>
+</html>
